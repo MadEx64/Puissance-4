@@ -16,9 +16,8 @@ $(document).ready(function() {
           $(".hide").css("background-color", color_one);
           var curColorOne = $(".hide").css("background-color");
           var resultOne = curColorOne.substring(0,3);
-          console.log(resultOne);
           if (resultOne != "rgb") {
-              color_one = "rgb(60,190,70)";
+              color_one = "rgb(255,0,0)";
           }
           else {
               color_one = curColorOne;
@@ -28,7 +27,6 @@ $(document).ready(function() {
           $(".hide").css("background-color", color_two);
           var curColorTwo = $(".hide").css("background-color");
           var resultTwo = curColorTwo.substring(0,3);
-          console.log(resultTwo);
           if (resultTwo != "rgb") {
               color_two = "rgb(200,45,61)";
           }
@@ -36,38 +34,35 @@ $(document).ready(function() {
               color_two = curColorTwo;
           }
 
-
-          console.log();
-          function verif(countColor) {
-              console.log('status');
+          function checkColor(countColor) {
               if(color_two === color_one) {
-                  color_one = "rgb(30," + (170 - countColor) + ",70)";
-                  verif(countColor - 70);
+                  color_one = "rgb(255," + (170 - countColor) + ",0)";
+                  checkColor(countColor - 70);
               }
               else {
                   return;
               }
           }
-          verif(90);
+          checkColor(90);
 
       }
       color();
 
-      function init() {
-        $("header").css({"background-color": "rgb(71, 72, 69)", "display": "flex", "justify-content": "center", "color": "white"});
-        $("body").append("<div><p class='playername content'>" + "It's your turn " + currentPlayer + "</p></div>");
-        $(".playername").css({"text-shadow": "2px 2px 3px black", "padding": "6px"});
-        $("div").css({"margin": "25px auto", "width": "500px", "height": "100%", "border-radius": "2px", "background-color": color_one});
-        $(".player").css({"text-shadow": "2px 2px 3px black", "padding": "6px"});
-        $(".content").css({"text-align": "center", "font-size": "1.5em", "color": "white"});
-        $("body").append("<table></table>");
-        $("table").css({"margin": "0px auto", "border": "2px solid blue"});
-        const replay = $("<button>Replay</button>").addClass("replay");
-        $("header").prepend(replay);
-        const back = $("<button>Back</button>").addClass("back");
-        $("header").append(back);
-        $("button").css({"cursor": "pointer", "text-align": "center", "font-family": "nexal", "padding": "12px 20px", "font-size": "24px",
-          "margin": "auto auto", "border": "none", "font-weight": "bold", "color": "white", "background-color": "transparent", "border-bottom": "4px solid #f14e51", "transition": "all 0.3s"});
+      function createLayout() {
+          $("header").css({"background-color": "rgb(71, 72, 69)", "display": "flex", "justify-content": "center", "color": "white"});
+          $("body").append("<div><p class='playername content'>" + text + currentPlayer + "</p></div>");
+          $(".playername").css({"text-shadow": "2px 2px 3px black", "padding": "6px"});
+          $(".content").css({"color": "white", "text-align": "center", "font-size": "1.5em"});
+          $("div").css({"margin": "25px auto", "width": "500px", "height": "100%", "border-radius": "2px", "background-color": color_one});
+          $(".content").css({"text-align": "center", "font-size": "1.5em", "color": "white"});
+          $("body").append("<table></table>");
+          $("table").css({"margin": "0px auto", "border": "5px solid blue", "background-color": "blue"});
+          const replay = $("<button>Replay</button>").addClass("replay");
+          $("header").prepend(replay);
+          const back = $("<button>Back</button>").addClass("back");
+          $("header").append(back);
+          $("button").css({"cursor": "pointer", "text-align": "center", "padding": "12px 20px", "font-size": "24px",
+            "margin": "auto auto", "border": "none", "font-weight": "bold", "color": "white", "background-color": "transparent", "border-bottom": "4px solid #f14e51", "transition": "all 0.3s"});
 
           for (var i = 0; i < y; i++) {
               $("table").append("<tr id='" + i + "tr'></tr>");
@@ -80,10 +75,10 @@ $(document).ready(function() {
           }
           $("body").append("<section class='score'><p class='" + player1 + "'>" +
               player1 + "</p><p class='" + player2 + "'>" + player2 + "</p></section>");
-          $(".score").css({"color": "white", "background-color": "grey", "font-weight": "bold", "text-shadow": "2px 2px 2px black", "font-size": "30px", "margin": "0 auto", "height": "100px",	"width": "540px",	"text-align": "center"});
+          $(".score").css({"color": "white", "background-color": "grey", "font-weight": "bold", "text-shadow": "2px 2px 2px black", "font-size": "30px", "margin": "5px  auto", "height": "100px",	"width": "540px",	"text-align": "center"});
           $(".score p").css({"display": "inline-block", "margin": "20px"});
       }
-      init();
+      createLayout();
 
       $(".replay").on("click", function(e) {
           game_on = false;
@@ -136,7 +131,7 @@ $(document).ready(function() {
                   currentPlayer = (status) ? player1 : player2;
                   $(".playername").text(text + currentPlayer);
                   status = !status;
-                  checkForWin(y ,x ,countY, posx, posy);
+                  checkForWin(y, x ,countY, posx, posy);
                   status = !status;
                   if (tokenCount === (tokensize +1)) {
                       alert("All tokens have been played. Game is a draw");
@@ -156,14 +151,14 @@ $(document).ready(function() {
       }
 
       function vertical(y, num_y, posx) {
-          var verti = 0;
+          var verticality = 0;
           num_y--;
-          var rgb = $("[data-position='"+ num_y +"-"+ posx +"']").find("span").css("background-color");
+          var color_data = $("[data-position='"+ num_y +"-"+ posx +"']").find("span").css("background-color");
           for (var countY = num_y; countY < y; countY++) {
-              var morergb = $("[data-position='"+ countY +"-"+ posx +"']").find("span").css("background-color");
-              if (rgb === morergb) {
-                  verti++;
-                  if (verti === 4) {
+              var color_data2 = $("[data-position='"+ countY +"-"+ posx +"']").find("span").css("background-color");
+              if (color_data === color_data2) {
+                  verticality++;
+                  if (verticality === 4) {
                       game_on = !game_on;
                       win();
                       return;
@@ -176,16 +171,16 @@ $(document).ready(function() {
       }
 
       function horizontal(y, x, num_y, posx, posy) {
-          var hori = 0;
+          var horizontality = 0;
           num_y--;
-          x = (x -1);
-          var rgbh = $("[data-position='"+ num_y +"-"+ posx +"']").find("span").css("background-color");
+          x = (x - 1);
+          var color_dataH = $("[data-position='"+ num_y +"-"+ posx +"']").find("span").css("background-color");
           for (var countX = posx; countX <= x; countX++) {
-              var morergbh = $("[data-position='"+ num_y +"-"+ countX +"']").find("span").css("background-color");
-              if (rgbh === morergbh) {
-                  hori++;
+              var color_data2H = $("[data-position='"+ num_y +"-"+ countX +"']").find("span").css("background-color");
+              if (color_dataH === color_data2H) {
+                  horizontality++;
                   current = $("[data-position='"+ num_y +"-"+ countX +"']").find("span")[0];
-                  if (hori === 4) {
+                  if (horizontality === 4) {
                       game_on = !game_on;
                       win();
                       return;
@@ -202,10 +197,10 @@ $(document).ready(function() {
 
       function horizontalLeft(num_x, num_y) {
           var horizontalLeft = 0;
-          var morergbh = $("[data-position='"+ num_y +"-"+ num_x + "']").find("span").css("background-color");
+          var color_dataHplus = $("[data-position='"+ num_y +"-"+ num_x + "']").find("span").css("background-color");
           for (var countX = num_x; countX >= 0; countX--) {
-              var currentrgb = $("[data-position='"+ num_y +"-"+ countX +"']").find("span").css("background-color");
-              if (currentrgb === morergbh) {
+              var color_dataplusplus = $("[data-position='"+ num_y +"-"+ countX +"']").find("span").css("background-color");
+              if (color_dataplusplus === color_dataHplus) {
                   horizontalLeft++;
                   if (horizontalLeft === 4) {
                       game_on = !game_on;
@@ -223,10 +218,10 @@ $(document).ready(function() {
       function diagonalLeft(y, num_y, posx) {
           num_y--;
           var diagonalLeft = 0;
-          var morergbh = $("[data-position='"+ num_y +"-"+ posx +"']").find("span").css("background-color");
+          var color_dataHplus = $("[data-position='"+ num_y +"-"+ posx +"']").find("span").css("background-color");
           for (var countY = posx; countY <= y; countY++) {
-              var currentrgb = $("[data-position='"+ num_y + "-"+ countY +"']").find("span").css("background-color");
-              if (currentrgb === morergbh) {
+              var color_dataplusplus = $("[data-position='"+ num_y + "-"+ countY +"']").find("span").css("background-color");
+              if (color_dataplusplus === color_dataHplus) {
                   diagonalLeft++;
                   if (diagonalLeft >= 4) {
                       game_on = !game_on;
@@ -245,11 +240,11 @@ $(document).ready(function() {
       }
 
       function leftBottom(num_x, num_y) {
-          var morergb = $("[data-position='"+ num_x + "-"+ num_y +"']").find("span").css("background-color");
+          var color_data2 = $("[data-position='"+ num_x + "-"+ num_y +"']").find("span").css("background-color");
           var diagoBF = 0;
           for(var countY = num_y; countY >= 0; countY--) {
-              var rgbpos = $("[data-position='"+ num_x + "-"+ countY +"']").find("span").css("background-color");
-              if (rgbpos === morergb) {
+              var colorpos = $("[data-position='"+ num_x + "-"+ countY +"']").find("span").css("background-color");
+              if (colorpos === color_data2) {
                   diagoBF++;
                   if (diagoBF >= 4) {
                       game_on = !game_on;
@@ -267,10 +262,10 @@ $(document).ready(function() {
       function diagonalRight(y, num_y, posx) {
           num_y--;
           var countDR = 0;
-          var morergbh = $("[data-position='"+ num_y +"-"+ posx +"']").find("span").css("background-color");
+          var color_dataHplus = $("[data-position='"+ num_y +"-"+ posx +"']").find("span").css("background-color");
           for (var k = posx; k <= y; k++) {
-              var currentrgb = $("[data-position='"+ num_y + "-"+ k +"']").find("span").css("background-color");
-              if (currentrgb === morergbh) {
+              var color_dataplusplus = $("[data-position='"+ num_y + "-"+ k +"']").find("span").css("background-color");
+              if (color_dataplusplus === color_dataHplus) {
                   countDR++;
                   if (countDR >= 4) {
                       game_on = !game_on;
@@ -289,11 +284,11 @@ $(document).ready(function() {
       }
 
       function rightBottom(num_x, num_y) {
-          var morergb = $("[data-position='"+ num_x + "-"+ num_y +"']").find("span").css("background-color");
+          var color_data2 = $("[data-position='"+ num_x + "-"+ num_y +"']").find("span").css("background-color");
           var diagoBF = 0;
           for(var countY = num_y; countY >= 0; countY--) {
-              var rgbpos = $("[data-position='"+ num_x + "-"+ countY +"']").find("span").css("background-color");
-              if (rgbpos === morergb) {
+              var colorpos = $("[data-position='"+ num_x + "-"+ countY +"']").find("span").css("background-color");
+              if (colorpos === color_data2) {
                   diagoBF++;
                   if (diagoBF >= 4) {
                       game_on = !game_on;
@@ -330,6 +325,6 @@ $(document).ready(function() {
 }(jQuery))
 
 $(function() {
-    $("window").connect4(6, 7, "Mickael", "Legolas", "#f14e51", "black");
+    $("window").connect4(6, 7, "Mickael", "Legolas", "red", "black");
 });
 });
