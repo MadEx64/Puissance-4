@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-(function($) {
+$(function($) {
   $.fn.connect4 = function(y, x, player1, player2, color_one, color_two) {
       var game_on = true;
       var current = null;
@@ -114,8 +114,12 @@ $(document).ready(function() {
 
       function playToken(that, y, x) {
           var index = that.data("position").split("-");
+          //posy row number
           var posy = index[0];
+          //posx col number
           var posx = index[1];
+          console.log(posx);
+          console.log(posy);
           for (var countY = y; countY >= 0; countY--) {
               current =  $("[data-position='"+ (countY - 1) +"-"+ posx +"']");
               var currentclass = current.attr("class");
@@ -124,7 +128,7 @@ $(document).ready(function() {
                   var tokensize = $(".token").length;
                   if (countY === 0) { return; }
                   current.addClass("active").append("<span class='token'></span>");
-                  $("span").css({"border-radius": "50%", "display": "block", "width": "100%", "height": "100%", "margin-top": "0px", "animation": "bounce 0.45s ease 2 alternate"});
+                  $("span").css({"border-radius": "50%", "display": "block", "width": "100%", "height": "100%", "animation": "bounce 0.45s ease 2 alternate"});
                   current.find("span").animate({marginTop: 0},"slow").css("background-color", color);
                   status = !status;
                   $("div").css("background-color", color = (status) ? color_one : color_two);
